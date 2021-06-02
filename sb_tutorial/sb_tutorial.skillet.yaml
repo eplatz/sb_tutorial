@@ -4,42 +4,84 @@ description: Skillet Generated from 10.70.221.157 using skillet_baseline.xml and
 type: panos
 labels:
     collection: Unknown
-variables: []
+variables:
+-   name: edl_description
+    description: edl_description
+    type_hint: text
+    default: ''
+-   name: edl_url
+    description: edl_url
+    type_hint: text
+    default: ''
+-   name: edl_name
+    description: edl_name
+    type_hint: text
+    default: ''
+-   name: tag_name
+    description: tag_name
+    type_hint: text
+    default: ''
+-   name: tag_color
+    description: tag_color
+    type_hint: dropdown
+    default: ''
+    help_text: ''
+    dd_list:
+    -   key: Blue
+        value: color3
+    -   key: Green
+        value: color2
+-   name: tag_description
+    description: tag_description
+    type_hint: text
+    default: ''
 snippets:
 -   name: entry-755619
     xpath: /config/devices/entry[@name="localhost.localdomain"]/network/qos/profile
     element: <entry name="default"/>
+    cmd: set
+    file: ''
+    template_title: ''
 -   name: user-id-collector-532225
     xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
     element: |-
         <user-id-collector>
                     <setting/>
                   </user-id-collector>
+    cmd: set
+    file: ''
+    template_title: ''
 -   name: external-list-244068
     xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
     element: |-
         <external-list>
-                    <entry name="edl_name">
+                    <entry name="{{ edl_name }}">
                       <type>
                         <ip>
                           <recurring>
                             <five-minute/>
                           </recurring>
-                          <url>http://someurl.com</url>
-                          <description>edl_description </description>
+                          <url>{{ edl_url }}</url>
+                          <description>{{ edl_description }} </description>
                         </ip>
                       </type>
                     </entry>
                   </external-list>
+    cmd: set
+    file: ''
+    template_title: ''
 -   name: tag-144652
     xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]
     element: |-
         <tag>
-                    <entry name="tag_name">
-                      <color>color6</color>
-                      <comments>tag_description</comments>
+                    <entry name="{{ tag_name }}">
+                      <color>{{ tag_color }}</color>
+                      <comments>{{ tag_description }}</comments>
                     </entry>
                   </tag>
+    cmd: set
+    file: ''
+    template_title: ''
 -   name: security-303270
     xpath: /config/devices/entry[@name="localhost.localdomain"]/vsys/entry[@name="vsys1"]/rulebase
     element: |-
@@ -53,7 +95,7 @@ snippets:
                             <member>any</member>
                           </from>
                           <source>
-                            <member>edl_name</member>
+                            <member>{{ edl_name }}</member>
                           </source>
                           <destination>
                             <member>any</member>
@@ -77,7 +119,7 @@ snippets:
                             <member>any</member>
                           </destination-hip>
                           <tag>
-                            <member>tag_name</member>
+                            <member>{{ tag_name }}</member>
                           </tag>
                           <action>deny</action>
                           <description>Inbound EDL IP block rule</description>
@@ -93,7 +135,7 @@ snippets:
                             <member>any</member>
                           </source>
                           <destination>
-                            <member>edl_name</member>
+                            <member>{{ edl_name }}</member>
                           </destination>
                           <source-user>
                             <member>any</member>
@@ -114,10 +156,13 @@ snippets:
                             <member>any</member>
                           </destination-hip>
                           <tag>
-                            <member>tag_name</member>
+                            <member>{{ tag_name }}</member>
                           </tag>
                           <action>deny</action>
                           <description>Outbound EDL IP block rule</description>
                         </entry>
                       </rules>
                     </security>
+    cmd: set
+    file: ''
+    template_title: ''
